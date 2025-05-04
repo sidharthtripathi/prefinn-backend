@@ -22,6 +22,7 @@ model User{
   userType UserType
   createdAt DateTime @default(now())
   otp Otp?
+  businessLoans BusinessLoan[]
 }
 
 enum UserType {
@@ -35,4 +36,39 @@ model Otp {
   user User @relation(references: [id],fields: [userId],onDelete: Cascade, onUpdate: Cascade)
   otp Int 
   createdAt DateTime @default(now())
+}
+
+model BusinessLoan {
+  id String @id @default(uuid())
+  userId String
+  user User @relation(references: [id],fields: [userId])
+  fullName String
+  mobileNumber String
+  city String
+  pincode String
+  propertyType String
+  panNumber String
+  occupationType Occupation
+  monthlyIncome Decimal @db.Decimal(10, 2)
+  loanAmount Decimal
+  verified Boolean @default(false)
+  otp Int
+  otpCreationDate DateTime @default(now())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+enum Occupation {
+  SALARIED
+  SELF_EMPLOYED
+  BUSINESS
+  RETIRED
+  STUDENT
+}
+
+model Query{
+  id String @id @default(uuid())
+  fullName String
+  email String
+  mobile String @unique
 }
