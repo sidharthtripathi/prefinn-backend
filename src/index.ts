@@ -3,7 +3,7 @@ import dotevn from 'dotenv'
 import authRouter from './routes/auth'
 import bodyParser = require('body-parser')
 import jwt, { JwtPayload } from 'jsonwebtoken'
-import { loanRouter } from './routes/loans'
+import { businessLoanRouter } from './routes/loans/businessLoans'
 import { queryRouter } from './routes/query'
 const cookieParser = require('cookie-parser');
 
@@ -30,7 +30,8 @@ server.use((req,res,next)=>{
 })
 
 server.use("/auth",authRouter)
-server.use('/loans',loanRouter)
+server.use('/loans/business',businessLoanRouter)
+
 server.use('/query',queryRouter)
 server.listen(PORT,()=>{
     console.log("server is up and running",PORT)

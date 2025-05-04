@@ -1,5 +1,5 @@
 import express from 'express'
-import { accountCreateSchema, accountLoginSchema, verifyEmailSchema } from '../zod/schema';
+import { accountCreateSchema, accountLoginSchema, verifyEmailSchema } from '../zod/authSchema';
 import { db } from '../lib/db';
 import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
