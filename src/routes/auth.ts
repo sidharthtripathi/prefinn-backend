@@ -10,15 +10,15 @@ authRouter.post('/register',async (req,res)=>{
     try {
         const {email,password,userType} = accountCreateSchema.parse(req.body)
         const otp = generateOTP()
-        const newUser = await db.user.create({data : {email,password :await bcrypt.hash(password,10),userType}})
-        const newOTP = await db.otp.create({data : {userId : newUser.id,otp}})
+        const {id,verified,createdAt} = await db.user.create({data : {email,password :await bcrypt.hash(password,10),userType}})
+        const newOTP = await db.otp.create({data : {userId : id,otp}})
         await resend.emails.send({
             from :"Acme <onboarding@resend.dev>",
             to : [email],
             subject : "email verification",
-            html  : `<p> otp is ${newOTP.otp} </p>`
+            html  : `<p> otp for email verification is ${newOTP.otp} </p>`
         })
-         res.json(newUser)
+        res.json({id,userType,verified,createdAt})
     } catch (error) {
         console.log(error)
         res.status(400).statusMessage = "INVALID PAYLOAD"
